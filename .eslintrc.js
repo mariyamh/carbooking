@@ -3,17 +3,17 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: ["airbnb", "prettier"],
-  parser: "@typescript-eslint/parser",
+  extends: ['airbnb', 'prettier'],
+
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
     ecmaVersion: 12,
-    sourceType: "module",
+    sourceType: 'module',
   },
-  plugins: ["prettier", "@typescript-eslint"],
+  plugins: ['prettier'],
   rules: {
-    "prettier/prettier": "error",
+    'prettier/prettier': 'error',
   },
 };
