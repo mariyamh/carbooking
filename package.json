@@ -5,11 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index",
+    "start": "nodemon index",
     "lint": "eslint ./ --ignore-pattern node_modules",
     "lint:fix": "eslint ./ --fix=true  --ignore-pattern node_modules",
     "format": "prettier -w .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docs": "apidoc -i ./Routes -o public/apidoc/"
+   
   },
   "keywords": [
     "airbnb",
@@ -37,5 +39,18 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "dependencies": {
+    "-": "0.0.1",
+    "apidoc": "^0.28.1",
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "g": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.6.9",
+    "mongoose": "^5.12.13",
+    "mongose": "0.0.2-security",
+    "nodemon": "^2.0.7"
   }
 }
