@@ -11,7 +11,7 @@ const ERRORMESSAGE = 'something went wrong';
 const INVALIDSTATUSCODE = '422';
 const NOTFOUNDSTATUSCODE = '404';
 const NOTFOUNDMESSAGE = 'Not found';
-export const Cars = async (_req, res) => {
+const Cars = async (_req, res) => {
   try {
     const blogs = await Car.findAll({
       include: {
@@ -26,7 +26,7 @@ export const Cars = async (_req, res) => {
   }
 };
 
-export const saveCar = async (req, res) => {
+const saveCar = async (req, res) => {
   try {
     validate.all('Car');
     const errors = validationResult(req);
@@ -46,12 +46,12 @@ export const saveCar = async (req, res) => {
   }
 };
 
-export const getCar = async (req, res) => {
+const getCar = async (req, res) => {
   const car = await Car.findOne({ where: { id: req.params.id } });
   res.status(SuccessStatusCode).json({ data: car });
 };
 
-export const update = async (req, res) => {
+const update = async (req, res) => {
   try {
     const car = await Car.findOne({ where: { id: req.params.id } });
     if (!car) {
@@ -70,7 +70,7 @@ export const update = async (req, res) => {
   }
 };
 
-export const deleteCar = async (req, res) => {
+const deleteCar = async (req, res) => {
   try {
     const car = await Car.findOne({ where: { id: req.params.id } });
     if (!car) {
@@ -86,3 +86,5 @@ export const deleteCar = async (req, res) => {
     res.json({ data: ERRORMESSAGE });
   }
 };
+
+module.exports = [Cars, saveCar, getCar, update, deleteCar];

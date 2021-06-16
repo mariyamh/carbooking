@@ -1,12 +1,27 @@
 const Router = require('express');
-const body = require('express-validator');
+const { body, validationResult } = require('express-validator');
 const authToken = require('../utils/apiToken');
 const login = require('../controllers/user.controller');
 const register = require('../controllers/user.controller');
 const allUsers = require('../controllers/user.controller');
 
 const router = Router();
-
+router.post(
+  '/register',
+  // username must be an email
+  body('username').isEmail(),
+  // password must be at least 5 chars long
+  body('password').isLength({ min: 5 }),
+  // eslint-disable-next-line consistent-return
+  (req, res) => {
+    // Finds the validation errors in this request and wraps them in an object with handy functions
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
+    }
+  }
+  // register
+);
 router.post('/register', [body('email').isEmail(), body('password').isLength({ min: 6 })], register);
 
 /**

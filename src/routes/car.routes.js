@@ -1,7 +1,10 @@
-import { Router } from 'express';
-import { body } from 'express-validator';
-
-import { Cars, getCar, saveCar, update, deleteCar } from '../controllers/car.controller';
+const Router = require('express');
+const { body } = require('express-validator');
+const cars = require('../controllers/car.controller');
+const getCar = require('../controllers/car.controller');
+const saveCar = require('../controllers/car.controller');
+const update = require('../controllers/car.controller');
+const deleteCar = require('../controllers/car.controller');
 
 const validate = (method) => {
   if (method !== 'Car') return [body('parameters').isEmpty()];
@@ -11,8 +14,8 @@ const validate = (method) => {
 const router = Router();
 
 /**
- * @api {get} /car/get show all cars
- * @apiName get
+ * @api {get} api/car/list show all cars
+ * @apiName list
  * @apiGroup Car
  *@apiVersion 0.1.0
  * @apiHeader (Header) {String} authorization Authorization Bearer token
@@ -35,10 +38,9 @@ const router = Router();
  *}
  *@apiError {String} Authorization authorization is missing or invalid
  */
-
-router.get('/get', Cars);
+router.get('/list', cars);
 /**
- * @api {get} /car/:id show car by Id
+ * @api {get} api/car/:id show car by Id
  * @apiName getCar
  * @apiGroup Car
  *@apiVersion 0.1.0
@@ -78,14 +80,14 @@ router.get('/get', Cars);
 
 router.get('/:id', getCar);
 /**
- * @api {post} /car/create create car
- * @apiName createEvent
+ * @api {post} api/car/create create car
+ * @apiName create
  * @apiGroup Car
  *@apiVersion 0.1.0
  * @apiHeader (Header) {String} authorization Authorization Bearer token
- * @apiParam {String} name for car
- * @apiParam {String} description for car
- * @apiParam {string} plate number of car
+ * @apiParam {String} name  name for car
+ * @apiParam {String} description fdescription for car
+ * @apiParam {string} plateNumber plate number of car
  *
  *@apiParamExample Request Body:
  *{
@@ -95,9 +97,9 @@ router.get('/:id', getCar);
  *}
  *
  * @apiSuccess {Number} id Car Id
- * @apiSuccess {String} car name
- * @apiSuccess {String} car description
- * @apiSuccess {String} car plate number
+ * @apiSuccess {String} name name of car
+ * @apiSuccess {String}  description description of car
+ * @apiSuccess {String} plateNumber plate number of car
  *@apiSuccessExample Response body
  *{
  *  "data": {
@@ -126,15 +128,15 @@ router.get('/:id', getCar);
  */
 router.post('/create', validate('Car'), saveCar);
 /**
- * @api {put} /car/update/:id update Car
+ * @api {put} api/car/update/:id update Car
  * @apiName update
  * @apiGroup Car
  *@apiVersion 0.1.0
  * @apiHeader (Header) {String} authorization Authorization Bearer token
  *
- * @apiParam {String} name of car
- * @apiParam {String} description of car
- * @apiParam {String} number plate of car
+ * @apiParam {String} name  name of car
+ * @apiParam {String} description description of car
+ * @apiParam {String} plateNumber  number plate of car
  *@apiParamExample Request Body:
  *{
  * "name":"name",
@@ -174,7 +176,7 @@ router.post('/create', validate('Car'), saveCar);
  */
 router.put('/update/:id', validate('car'), update);
 /**
- * @api {delete} /car/delete/:id delete car by id
+ * @api {delete} api/car/delete/:id delete car by id
  * @apiName delete
  * @apiGroup Car
  *@apiVersion 0.1.0
@@ -206,4 +208,4 @@ router.put('/update/:id', validate('car'), update);
 
 router.delete('/delete/:id', deleteCar);
 
-export default router;
+module.exports = router;

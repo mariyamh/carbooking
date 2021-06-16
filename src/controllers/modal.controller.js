@@ -11,7 +11,7 @@ const INVALIDSTATUSCODE = '422';
 const NOTFOUNDSTATUSCODE = '404';
 const NOTFOUNDMESSAGE = 'Not found';
 
-export const Modals = async (_req, res) => {
+const Modals = async (_req, res) => {
   try {
     const modals = await Modal.findAll({
       order: [['id', 'DESC']],
@@ -22,7 +22,7 @@ export const Modals = async (_req, res) => {
   }
 };
 
-export const saveModal = async (req, res) => {
+const saveModal = async (req, res) => {
   try {
     validate.all('Modal');
     const errors = validationResult(req);
@@ -39,13 +39,12 @@ export const saveModal = async (req, res) => {
     res.json({ data: err.message });
   }
 };
-
-export const getModal = async (req, res) => {
+const getModal = async (req, res) => {
   const modal = await Modal.findOne({ where: { id: req.params.id } });
   res.status(SuccessStatusCode).json({ data: modal });
 };
 
-export const update = async (req, res) => {
+const update = async (req, res) => {
   try {
     const modal = await Modal.findOne({ where: { id: req.params.id } });
     if (!modal) {
@@ -64,7 +63,7 @@ export const update = async (req, res) => {
   }
 };
 
-export const deleteModal = async (req, res) => {
+const deleteModal = async (req, res) => {
   try {
     const modal = await Modal.findOne({ where: { id: req.params.id } });
     if (!modal) {
@@ -80,3 +79,5 @@ export const deleteModal = async (req, res) => {
     res.json({ data: ERRORMESSAGE });
   }
 };
+
+module.exports = [Modals, saveModal, getModal, update, deleteModal];

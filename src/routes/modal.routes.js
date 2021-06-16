@@ -1,7 +1,10 @@
-import { Router } from 'express';
-import { body } from 'express-validator';
-
-import { Modals, getModal, saveModal, update, deleteModal } from '../controllers/modal.controller';
+const Router = require('express');
+const { body } = require('express-validator');
+const modals = require('../controllers/modal.controller');
+const getModal = require('../controllers/modal.controller');
+const saveModal = require('../controllers/modal.controller');
+const update = require('../controllers/modal.controller');
+const deleteModal = require('../controllers/modal.controller');
 
 const router = Router();
 
@@ -11,9 +14,9 @@ const validate = (method) => {
   return [body('name').notEmpty(), body('description').notEmpty()];
 };
 /**
- * @api {get} /modal/get show all modals
- * @apiName get
- * @apiGroup MOdal
+ * @api {get} /modal/list show all modals
+ * @apiName list
+ * @apiGroup Modal
  *@apiVersion 0.1.0
  * @apiHeader (Header) {String} authorization Authorization Bearer token
  *
@@ -35,7 +38,7 @@ const validate = (method) => {
  *@apiError {String} Authorization authorization is missing or invalid
  */
 
-router.get('/get', Modals);
+router.get('/list', modals);
 /**
  * @api {get} /modal/:id show modal by Id
  * @apiName getModal
@@ -82,7 +85,7 @@ router.get('/:id', getModal);
  *@apiVersion 0.1.0
  * @apiHeader (Header) {String} authorization Authorization Bearer token
  *
- * @apiParam {Number} carId
+ * @apiParam {Number} modalId
  *
  *@apiParamExample Request Body:
  *{
@@ -196,4 +199,4 @@ router.put('/update/:id', validate('Modal'), update);
 
 router.delete('/delete/:id', deleteModal);
 
-export default router;
+module.exports = router;

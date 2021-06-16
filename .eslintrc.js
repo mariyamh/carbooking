@@ -8,7 +8,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  ignorePatterns: ['public/apidoc', 'src/utils'],
+  ignorePatterns: ['public/apidoc', 'src/utils', 'node_modules'],
   rules: {
     'import/no-cycle': 1,
   },

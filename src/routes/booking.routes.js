@@ -1,6 +1,10 @@
-import { Router } from 'express';
-import { body } from 'express-validator';
-import { Bookings, getBooking, saveBooking, update, deleteBooking } from '../controllers/booking.controller';
+const Router = require('express');
+const { body } = require('express-validator');
+const bookings = require('../controllers/booking.controller');
+const getBooking = require('../controllers/booking.controller');
+const saveBooking = require('../controllers/booking.controller');
+const update = require('../controllers/booking.controller');
+const deleteBooking = require('../controllers/booking.controller');
 
 const validate = (method) => {
   if (method !== 'Booking') return [body('parameters').isEmpty()];
@@ -10,8 +14,8 @@ const validate = (method) => {
 const router = Router();
 
 /**
- * @api {get} /booking/get show all Bookings
- * @apiName get
+ * @api {get} api/booking/list show all Bookings
+ * @apiName list
  * @apiGroup Booking
  *@apiVersion 0.1.0
  * @apiHeader (Header) {String} authorization Authorization Bearer token
@@ -36,9 +40,9 @@ const router = Router();
  *@apiError {String} Authorization authorization is missing or invalid
  */
 
-router.get('/get', Bookings);
+router.get('/list', bookings);
 /**
- * @api {get} /booking/:id show booking by Id
+ * @api {get} api/booking/:id show booking by Id
  * @apiName getBooking
  * @apiGroup Booking
  *@apiVersion 0.1.0
@@ -57,7 +61,7 @@ router.get('/get', Bookings);
  *  }
  *}
  *
- * @apiSuccess {Objects}  Object of Booking
+ * @apiSuccess {Objects}  Object object of Booking
  *
  *@apiErrorExample Response Body:
  *{
@@ -78,15 +82,15 @@ router.get('/get', Bookings);
 
 router.get('/:id', getBooking);
 /**
- * @api {post} /booking/create create booking
+ * @api {post} api/booking/create create booking
  * @apiName createEvent
  * @apiGroup Booking
  *@apiVersion 0.1.0
  * @apiHeader (Header) {String} authorization Authorization Bearer token
  *
- * @apiParam {Number} carId
- * @apiParam {Number} userId userId for booking
- * @apiParam {date} date of booking
+ * @apiParam {Number} carId  carId for car reference
+ * @apiParam {Number} userId userId for user reference
+ * @apiParam {date} date  date of booking
  * @apiParam {Number} status Status of Booking (0|1)
  *
  *@apiParamExample Request Body:
@@ -116,7 +120,7 @@ router.get('/:id', getBooking);
  *
  *@apiErrorExample Response Body:
  *{
- * "userId":"=User  id field is required",
+ * "userId":"User id field is required",
  * "status":"status field is required"
  *}
  *
@@ -129,7 +133,7 @@ router.get('/:id', getBooking);
  */
 router.post('/create', validate('Booking'), saveBooking);
 /**
- * @api {put} /Booking/update/:id update Booking
+ * @api {put} api/Booking/update/:id update Booking
  * @apiName update
  * @apiGroup Booking
  *@apiVersion 0.1.0
@@ -180,7 +184,7 @@ router.post('/create', validate('Booking'), saveBooking);
  */
 router.put('/update/:id', validate('Booking'), update);
 /**
- * @api {delete} /Booking/delete/:id delete Booking by id
+ * @api {delete} api/Booking/delete/:id delete Booking by id
  * @apiName delete
  * @apiGroup Booking
  *@apiVersion 0.1.0
@@ -212,4 +216,4 @@ router.put('/update/:id', validate('Booking'), update);
 
 router.delete('/delete/:id', deleteBooking);
 
-export default router;
+module.exports = router;

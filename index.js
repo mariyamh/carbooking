@@ -20,15 +20,17 @@ const connect = mongoose.connect(url, {
 
 connect
   .then(() => {
-    app.listen(port);
+    // app.listen(port);
+    console.log('ok...');
   })
   .catch((err) => {
     // eslint-disable-next-line no-console
     console.log(err);
   });
-
-app.get('/', (req, res) => {
-  res.send('Car booking app is running');
-});
 app.use('/api/', routes());
+
+app.listen(port, () => {
+  console.log(`Server running on port localhost:${port}`);
+});
+
 app.use(express.static('public'));
