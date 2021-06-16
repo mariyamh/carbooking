@@ -1,9 +1,9 @@
-import jwt from 'jsonwebtoken';
-import defaultResponse from './defaultResponse';
-import constants from './constants';
-import responseStatus from './responseStatus';
+const jwt = require('jsonwebtoken');
+const defaultResponse = require('./defaultResponse');
+const constants = require('./constants');
+const responseStatus = require('./responseStatus');
 
-export default (req, res, next) => {
+module.exports = (req, res, next) => {
   const getToken = req.header('Authorization');
   if (!getToken) {
     defaultResponse.error({ message: constants.NO_TOKEN }, res, responseStatus.NO_TOKEN);

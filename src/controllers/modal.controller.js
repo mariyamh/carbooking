@@ -1,7 +1,6 @@
-import { validationResult } from 'express-validator';
-
-import { Modal } from '../models';
-import validate from '../routes/modal.routes';
+const validationResult = require('express-validator');
+const Modal = require('../models');
+const validate = require('../routes/modal.routes');
 
 const SuccessStatusCode = '200';
 const SuccessUPDATEMESSAGE = 'Record Updated Successfully';

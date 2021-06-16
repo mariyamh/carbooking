@@ -1,13 +1,12 @@
-import { hash, compare } from 'bcrypt';
+const { hash, compare } = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const defaultResponse = require('../utils/defaultResponse');
+const constants = require('../utils/constants');
+const responseStatus = require('../utils/responseStatus');
 
-import jwt from 'jsonwebtoken';
-import { User } from '../models';
+const User = require('../models');
 
-import defaultResponse from '../utils/defaultResponse';
-import constants from '../utils/constants';
-import responseStatus from '../utils/responseStatus';
-
-export const register = async (req, res) => {
+const register = async (req, res) => {
   try {
     req.body.password = await hash(req.body.password, 10);
     const user = await User.create(req.body);
@@ -19,8 +18,7 @@ export const register = async (req, res) => {
     defaultResponse.error({ message: err.message }, res, responseStatus.ERROR);
   }
 };
-
-export const login = async (req, res) => {
+const login = async (req, res) => {
   try {
     const user = await User.findOne({ where: { email: req.body.email } });
     if (user == null) {
@@ -40,7 +38,7 @@ export const login = async (req, res) => {
   }
 };
 
-export const allUsers = async (_req, res) => {
+const allUsers = async (_req, res) => {
   try {
     const users = await User.findAll();
     if (users) {
@@ -50,3 +48,4 @@ export const allUsers = async (_req, res) => {
     defaultResponse.error({ message: err.message }, res, responseStatus.ERROR);
   }
 };
+module.exports = [login, register, allUsers];

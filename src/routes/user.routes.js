@@ -1,7 +1,9 @@
-import { Router } from 'express';
-import { body } from 'express-validator';
-import authToken from '../utils/apiToken';
-import { login, register, allUsers } from '../controllers/user.controller';
+const Router = require('express');
+const body = require('express-validator');
+const authToken = require('../utils/apiToken');
+const login = require('../controllers/user.controller');
+const register = require('../controllers/user.controller');
+const allUsers = require('../controllers/user.controller');
 
 const router = Router();
 
@@ -102,4 +104,4 @@ router.get('/users', allUsers);
 router.get('/users', authToken, allUsers);
 router.get('/users', authToken, allUsers);
 
-export default router;
+module.exports = router;

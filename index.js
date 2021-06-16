@@ -1,10 +1,11 @@
-import routes from './src/routes/index';
-
+// import routes from './src/routes/index';
 require('dotenv').config();
 
 const express = require('express');
 
 const mongoose = require('mongoose');
+
+const routes = require('./src/routes');
 
 const app = express();
 
@@ -22,6 +23,7 @@ connect
     app.listen(port);
   })
   .catch((err) => {
+    // eslint-disable-next-line no-console
     console.log(err);
   });
 

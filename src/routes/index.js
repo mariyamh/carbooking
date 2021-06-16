@@ -1,9 +1,9 @@
-import { Router } from 'express';
-import userRoutes from './user.routes';
-import car from './car.routes';
-import booking from './booking.routes';
-import modal from './modal.routes';
-import authToken from '../utils/apiToken';
+const Router = require('express');
+const userRoutes = require('./user.routes');
+const car = require('./car.routes');
+const booking = require('./booking.routes');
+const modal = require('./modal.routes');
+const authToken = require('../utils/apiToken');
 
 const router = Router();
 
@@ -18,4 +18,4 @@ const routes = () => {
   return router;
 };
 
-export default routes;
+module.exports = routes;

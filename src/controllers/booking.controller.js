@@ -1,9 +1,8 @@
-/* eslint-disable comma-dangle */
-import { validationResult } from 'express-validator';
-
-import { Booking, Car, User } from '../models';
-
-import validate from '../routes/booking.routes';
+const validationResult = require('express-validator');
+const Booking = require('../models');
+const Car = require('../models');
+const User = require('../models');
+const validate = require('../routes/modal.routes');
 
 const SuccessStatusCode = '200';
 const SuccessUPDATEMESSAGE = 'Record Updated Successfully';
@@ -13,8 +12,7 @@ const ERRORMESSAGE = 'something went wrong';
 const INVALIDSTATUSCODE = '422';
 const NOTFOUNDSTATUSCODE = '404';
 const NOTFOUNDMESSAGE = 'Not found';
-
-export const Bookings = async (_req, res) => {
+const Bookings = async (_req, res) => {
   try {
     const blogs = await Booking.findAll({
       include: {
@@ -33,7 +31,7 @@ export const Bookings = async (_req, res) => {
   }
 };
 
-export const saveBooking = async (req, res) => {
+const saveBooking = async (req, res) => {
   try {
     validate.all('Booking');
     const errors = validationResult(req);
@@ -53,12 +51,12 @@ export const saveBooking = async (req, res) => {
   }
 };
 
-export const getBooking = async (req, res) => {
+const getBooking = async (req, res) => {
   const booking = await Booking.findOne({ where: { id: req.params.id } });
   res.status(SuccessStatusCode).json({ data: booking });
 };
 
-export const update = async (req, res) => {
+const update = async (req, res) => {
   try {
     const booking = await Booking.findOne({ where: { id: req.params.id } });
     if (!booking) {
@@ -76,7 +74,7 @@ export const update = async (req, res) => {
   }
 };
 
-export const deleteBooking = async (req, res) => {
+const deleteBooking = async (req, res) => {
   try {
     const booking = await Booking.findOne({ where: { id: req.params.id } });
     if (!booking) {
@@ -92,3 +90,4 @@ export const deleteBooking = async (req, res) => {
     res.json({ data: ERRORMESSAGE });
   }
 };
+module.exports = [Bookings, saveBooking, getBooking, update, deleteBooking];

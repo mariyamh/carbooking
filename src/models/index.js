@@ -1,6 +1,11 @@
-import Booking from './Booking';
-import Modal from './Modal';
-import Car from './Car';
-import User from './User';
+const Booking = require('./Booking');
+const Modal = require('./Modal');
+const Car = require('./Car');
+const User = require('./User');
 
-export { Car, Booking, Modal, User };
+module.exports = {
+  Car,
+  Booking,
+  Modal,
+  User,
+};

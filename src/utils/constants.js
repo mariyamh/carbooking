@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   TOKEN_ERROR: 'Token not correct.',
   NO_TOKEN: 'Token required to access API.',
   INVALID_BODY: 'Request body is invalid.',

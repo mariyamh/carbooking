@@ -5,7 +5,7 @@ const resultErrorObject = {
 
 const resultSuccessObject = {};
 
-export default {
+module.exports = {
   error: (error, res, status = 500) => {
     resultErrorObject.error = true;
     resultErrorObject.message = error.message;
