@@ -11,7 +11,7 @@
     "format": "prettier -w .",
     "prepare": "husky install",
     "docs": "apidoc -i ./src/routes -o public/apidoc/",
-    "deploy": "gh-pages -d public/apidoc"
+    "deploy": "gh-pages -d public/apidoc -r https://github.com/mariyamh/carbooking.git"
   },
   "homepage": "https://mariyamh.github.io/carbooking/",
   "keywords": [
