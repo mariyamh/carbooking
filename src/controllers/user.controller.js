@@ -1,7 +1,7 @@
 const { hash, compare } = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const defaultResponse = require('../utils/defaultResponse');
-const constants = require('../utils/constants');
+const constants = require('../utils/errors');
 const responseStatus = require('../utils/responseStatus');
 
 const User = require('../models');

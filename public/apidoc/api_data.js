@@ -927,7 +927,7 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "plateNumber",
-            "description": "<p>plate number plate of car</p>"
+            "description": "<p>number plate of car</p>"
           }
         ]
       },
@@ -1001,7 +1001,7 @@ define({ "api": [
   },
   {
     "type": "post",
-    "url": "/modal/create",
+    "url": "api/modal/create",
     "title": "create modal",
     "name": "createEvent",
     "group": "Modal",
@@ -1196,70 +1196,7 @@ define({ "api": [
   },
   {
     "type": "get",
-    "url": "/modal/get",
-    "title": "show all modals",
-    "name": "get",
-    "group": "Modal",
-    "version": "0.1.0",
-    "header": {
-      "fields": {
-        "Header": [
-          {
-            "group": "Header",
-            "type": "String",
-            "optional": false,
-            "field": "authorization",
-            "description": "<p>Authorization Bearer token</p>"
-          }
-        ]
-      }
-    },
-    "success": {
-      "examples": [
-        {
-          "title": "Response Body",
-          "content": "[{\n    \"id\": 1,\n    \"name\": \"model 1\",\n    \"description\": \"description\"\n   \"updatedAt\": \"2021-01-05T07:01:49.644Z\",\n   \"createdAt\": \"2021-01-05T07:01:49.644Z\",\n   \"deletedAt\": null  }]",
-          "type": "json"
-        }
-      ],
-      "fields": {
-        "Success 200": [
-          {
-            "group": "Success 200",
-            "type": "Objects[]",
-            "optional": false,
-            "field": "Modals",
-            "description": "<p>Array of Modals</p>"
-          }
-        ]
-      }
-    },
-    "error": {
-      "examples": [
-        {
-          "title": "Response Body:",
-          "content": "{\n\"message\":\"access denied\"\n}",
-          "type": "json"
-        }
-      ],
-      "fields": {
-        "Error 4xx": [
-          {
-            "group": "Error 4xx",
-            "type": "String",
-            "optional": false,
-            "field": "Authorization",
-            "description": "<p>authorization is missing or invalid</p>"
-          }
-        ]
-      }
-    },
-    "filename": "src/routes/modal.routes.js",
-    "groupTitle": "Modal"
-  },
-  {
-    "type": "get",
-    "url": "/modal/:id",
+    "url": "api/modal/:id",
     "title": "show modal by Id",
     "name": "getModal",
     "group": "Modal",
@@ -1351,8 +1288,71 @@ define({ "api": [
     "groupTitle": "Modal"
   },
   {
+    "type": "get",
+    "url": "api/modal/list",
+    "title": "show all modals",
+    "name": "list",
+    "group": "Modal",
+    "version": "0.1.0",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "authorization",
+            "description": "<p>Authorization Bearer token</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Response Body",
+          "content": "[{\n    \"id\": 1,\n    \"name\": \"model 1\",\n    \"description\": \"description\"\n   \"updatedAt\": \"2021-01-05T07:01:49.644Z\",\n   \"createdAt\": \"2021-01-05T07:01:49.644Z\",\n   \"deletedAt\": null  }]",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Objects[]",
+            "optional": false,
+            "field": "Modals",
+            "description": "<p>Array of Modals</p>"
+          }
+        ]
+      }
+    },
+    "error": {
+      "examples": [
+        {
+          "title": "Response Body:",
+          "content": "{\n\"message\":\"access denied\"\n}",
+          "type": "json"
+        }
+      ],
+      "fields": {
+        "Error 4xx": [
+          {
+            "group": "Error 4xx",
+            "type": "String",
+            "optional": false,
+            "field": "Authorization",
+            "description": "<p>authorization is missing or invalid</p>"
+          }
+        ]
+      }
+    },
+    "filename": "src/routes/modal.routes.js",
+    "groupTitle": "Modal"
+  },
+  {
     "type": "put",
-    "url": "/modal/update/:id",
+    "url": "api/modal/update/:id",
     "title": "update MOdal",
     "name": "update",
     "group": "Modal",

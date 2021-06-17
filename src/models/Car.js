@@ -15,6 +15,7 @@ const carSchema = new Schema({
     required: true,
   },
   Modal: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Modal' }],
+  Bookings: [{ type: mongoose.Types.ObjectId, ref: 'Booking' }],
 });
 const Car = mongoose.model('Car', carSchema);
 module.exports = Car;

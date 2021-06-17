@@ -10,6 +10,9 @@ const modalSchema = new Schema({
     type: String,
     required: true,
   },
+  description: {
+    type: String,
+  },
 });
 const Modal = mongoose.model('Modal', modalSchema);
 module.exports = Modal;

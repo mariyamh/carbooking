@@ -19,6 +19,7 @@ const bookingSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  cars: [{ type: mongoose.Types.ObjectId, ref: 'Car' }],
 });
 const Booking = mongoose.model('Booking', bookingSchema);
 module.exports = Booking;

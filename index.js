@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 // import routes from './src/routes/index';
 require('dotenv').config();
 
@@ -13,20 +14,23 @@ const port = process.env.PORT;
 
 const url = process.env.URL;
 
-const connect = mongoose.connect(url, {
+const connectOpt = mongoose.connect(url, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
-connect
-  .then(() => {
-    // app.listen(port);
-    console.log('ok...');
-  })
-  .catch((err) => {
+const connectDb = async () => {
+  try {
+    await mongoose.connect(url, connectOpt);
+
     // eslint-disable-next-line no-console
-    console.log(err);
-  });
+    console.info(`Connected to database on Worker process: ${process.pid}`);
+  } catch (error) {
+    console.error('Connection error');
+  }
+};
+connectDb();
+
 app.use('/api/', routes());
 
 app.listen(port, () => {

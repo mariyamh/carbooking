@@ -14,7 +14,7 @@ const validate = (method) => {
   return [body('name').notEmpty(), body('description').notEmpty()];
 };
 /**
- * @api {get} /modal/list show all modals
+ * @api {get} api/modal/list show all modals
  * @apiName list
  * @apiGroup Modal
  *@apiVersion 0.1.0
@@ -40,7 +40,7 @@ const validate = (method) => {
 
 router.get('/list', modals);
 /**
- * @api {get} /modal/:id show modal by Id
+ * @api {get} api/modal/:id show modal by Id
  * @apiName getModal
  * @apiGroup Modal
  *@apiVersion 0.1.0
@@ -79,7 +79,7 @@ router.get('/list', modals);
 
 router.get('/:id', getModal);
 /**
- * @api {post} /modal/create create modal
+ * @api {post} api/modal/create create modal
  * @apiName createEvent
  * @apiGroup Modal
  *@apiVersion 0.1.0
@@ -122,7 +122,7 @@ router.get('/:id', getModal);
  */
 router.post('/create', validate('Modal'), saveModal);
 /**
- * @api {put} /modal/update/:id update MOdal
+ * @api {put} api/modal/update/:id update MOdal
  * @apiName update
  * @apiGroup Modal
  *@apiVersion 0.1.0
