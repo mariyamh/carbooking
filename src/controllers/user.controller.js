@@ -7,10 +7,10 @@ const responseStatus = require('../utils/responseStatus');
 const User = require('../models');
 
 const register = async (req, res) => {
+  console.log(req.body);
   try {
     req.body.password = await hash(req.body.password, 10);
     const user = await User.create(req.body);
-
     if (user) {
       defaultResponse.success(constants.DATA_SAVED, user, res, responseStatus.SUCCESS);
     }
@@ -48,4 +48,7 @@ const allUsers = async (_req, res) => {
     defaultResponse.error({ message: err.message }, res, responseStatus.ERROR);
   }
 };
-module.exports = [login, register, allUsers];
+
+module.exports = register;
+module.exports = login;
+module.exports = allUsers;

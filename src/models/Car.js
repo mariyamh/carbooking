@@ -14,6 +14,10 @@ const carSchema = new Schema({
     type: String,
     required: true,
   },
+  color: {
+    type: String,
+    required: false,
+  },
   Modal: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Modal' }],
   Bookings: [{ type: mongoose.Types.ObjectId, ref: 'Booking' }],
 });

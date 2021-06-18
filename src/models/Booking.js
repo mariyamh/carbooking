@@ -16,8 +16,9 @@ const bookingSchema = new Schema({
     required: true,
   },
   status: {
-    type: Boolean,
-    required: true,
+    type: String,
+    enum: ['accepted', 'rejected', 'pending'],
+    default: 'pending',
   },
   cars: [{ type: mongoose.Types.ObjectId, ref: 'Car' }],
 });
