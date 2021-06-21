@@ -1,10 +1,6 @@
 const Router = require('express');
 const { body } = require('express-validator');
-const bookings = require('../controllers/booking.controller');
-const getBooking = require('../controllers/booking.controller');
-const saveBooking = require('../controllers/booking.controller');
-const update = require('../controllers/booking.controller');
-const deleteBooking = require('../controllers/booking.controller');
+const bookingMethods = require('../controllers/booking.controller');
 
 const validate = (method) => {
   if (method !== 'Booking') return [body('parameters').isEmpty()];
@@ -40,7 +36,7 @@ const router = Router();
  *@apiError {String} Authorization authorization is missing or invalid
  */
 
-router.get('/list', bookings);
+router.get('/list', bookingMethods.bookings);
 /**
  * @api {get} api/booking/:id show booking by Id
  * @apiName getBooking
@@ -80,7 +76,7 @@ router.get('/list', bookings);
  *@apiError {Number} id params id is invalid
  */
 
-router.get('/:id', getBooking);
+router.get('/:id', bookingMethods.getBooking);
 /**
  * @api {post} api/booking/create create booking
  * @apiName createEvent
@@ -131,7 +127,7 @@ router.get('/:id', getBooking);
  *}
  *@apiError {String} Authorization authorization is missing or invalid
  */
-router.post('/create', validate('Booking'), saveBooking);
+router.post('/create', validate('Booking'), bookingMethods.saveBooking);
 /**
  * @api {put} api/Booking/update/:id update Booking
  * @apiName update
@@ -182,7 +178,7 @@ router.post('/create', validate('Booking'), saveBooking);
  *}
  *@apiError {Number} id params id is invalid
  */
-router.put('/update/:id', validate('Booking'), update);
+router.put('/update/:id', validate('Booking'), bookingMethods.update);
 /**
  * @api {delete} api/Booking/delete/:id delete Booking by id
  * @apiName delete
@@ -214,6 +210,6 @@ router.put('/update/:id', validate('Booking'), update);
  *@apiError {Number} id params id is invalid
  */
 
-router.delete('/delete/:id', deleteBooking);
+router.delete('/delete/:id', bookingMethods.deleteBooking);
 
 module.exports = router;

@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const routes = require('./src/routes');
 
 const app = express();
-
+app.use(express.json());
 const port = process.env.PORT;
 
 const url = process.env.URL;

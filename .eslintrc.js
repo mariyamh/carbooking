@@ -11,5 +11,7 @@ module.exports = {
   ignorePatterns: ['public/apidoc', 'src/utils', 'node_modules'],
   rules: {
     'import/no-cycle': 1,
+    'no-unused-vars': 0,
+    'max-len': 1,
   },
 };

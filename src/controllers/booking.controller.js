@@ -1,18 +1,9 @@
-const validationResult = require('express-validator');
-const Booking = require('../models');
-const Car = require('../models');
-const User = require('../models');
-const validate = require('../routes/modal.routes');
+const { Booking, Car, User } = require('../models');
+const defaultResponse = require('../utils/defaultResponse');
+const constants = require('../utils/errors');
+const responseStatus = require('../utils/responseStatus');
 
-const SuccessStatusCode = '200';
-const SuccessUPDATEMESSAGE = 'Record Updated Successfully';
-const SuccessDELETEMESSAGE = 'Record Deleted Successfully';
-const ERRORStatusCode = '500';
-const ERRORMESSAGE = 'something went wrong';
-const INVALIDSTATUSCODE = '422';
-const NOTFOUNDSTATUSCODE = '404';
-const NOTFOUNDMESSAGE = 'Not found';
-const Bookings = async (_req, res) => {
+const bookings = async (_req, res) => {
   try {
     const blogs = await Booking.findAll({
       include: {
@@ -25,21 +16,16 @@ const Bookings = async (_req, res) => {
       },
       order: [['id', 'DESC']],
     });
-    res.status(SuccessStatusCode).json({ data: blogs });
+    res.status(responseStatus.SUCCESS).json({ data: blogs });
   } catch (err) {
-    res.status(ERRORStatusCode).json({ error: err.message });
+    res.status(responseStatus.ERROR).json({ error: err.message });
   }
 };
 
 const saveBooking = async (req, res) => {
   try {
-    validate.all('Booking');
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(INVALIDSTATUSCODE).json({ errors: errors.array() });
-      return;
-    }
-    console.log(req.user);
+    // check if no error
+
     const newBooking = await Booking.create({
       carId: Number(req.car.carId),
       userId: Number(req.user.id),
@@ -53,24 +39,23 @@ const saveBooking = async (req, res) => {
 
 const getBooking = async (req, res) => {
   const booking = await Booking.findOne({ where: { id: req.params.id } });
-  res.status(SuccessStatusCode).json({ data: booking });
+  res.status(responseStatus.SUCCESS).json({ data: booking });
 };
 
 const update = async (req, res) => {
   try {
     const booking = await Booking.findOne({ where: { id: req.params.id } });
     if (!booking) {
-      res.status(NOTFOUNDSTATUSCODE).json({ data: NOTFOUNDMESSAGE });
+      res.status(responseStatus.NOTFOUNDSTATUSCODE).json({ data: responseStatus.NOTFOUNDMESSAGE });
     }
-    await Booking.update(
-      {
-        status: req.body.status,
-      },
-      { where: { id: req.params.id } }
-    );
-    res.status(SuccessStatusCode).json({ data: SuccessUPDATEMESSAGE });
+    await Booking.findOneAndUpdate({ _id: req.params.id }, (err, doc) => {
+      if (err) {
+        defaultResponse.error({ message: err }, responseStatus.ERROR);
+      }
+    });
+    res.status(responseStatus.SuccessStatusCode).json({ data: responseStatus.SUCCESS });
   } catch (err) {
-    res.json({ data: ERRORMESSAGE });
+    res.json({ data: err });
   }
 };
 
@@ -78,16 +63,23 @@ const deleteBooking = async (req, res) => {
   try {
     const booking = await Booking.findOne({ where: { id: req.params.id } });
     if (!booking) {
-      res.status(NOTFOUNDSTATUSCODE).json({ data: NOTFOUNDMESSAGE });
+      res.status(responseStatus.ERROR).json({ data: responseStatus.NOTFOUNDMESSAGE });
     }
     await Booking.destroy({
       where: {
         id: req.params.id,
       },
     });
-    res.status(SuccessStatusCode).json({ data: SuccessDELETEMESSAGE });
+    res.status(responseStatus.SuccessStatusCode).json({ data: responseStatus.SUCCESS });
   } catch (err) {
-    res.json({ data: ERRORMESSAGE });
+    res.json({ data: responseStatus.ERROR });
   }
 };
-module.exports = [Bookings, saveBooking, getBooking, update, deleteBooking];
+const bookingMethods = {
+  bookings,
+  saveBooking,
+  getBooking,
+  update,
+  deleteBooking,
+};
+module.exports = bookingMethods;

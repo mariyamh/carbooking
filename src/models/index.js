@@ -3,9 +3,11 @@ const Modal = require('./Modal');
 const Car = require('./Car');
 const User = require('./User');
 
-module.exports = {
+const models = {
   Car,
   Booking,
   Modal,
   User,
 };
+
+module.exports = models;

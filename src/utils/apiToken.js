@@ -3,7 +3,7 @@ const defaultResponse = require('./defaultResponse');
 const errors = require('./errors');
 const responseStatus = require('./responseStatus');
 
-module.exports = (req, res, next) => {
+const authToken = (req, res, next) => {
   const getToken = req.header('Authorization');
   if (!getToken) {
     defaultResponse.error({ message: errors.NO_TOKEN }, res, responseStatus.NO_TOKEN);
@@ -15,3 +15,4 @@ module.exports = (req, res, next) => {
     defaultResponse.error({ message: errors.TOKEN_ERROR }, res, responseStatus.NO_TOKEN);
   }
 };
+module.exports = authToken;

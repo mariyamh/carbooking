@@ -1,38 +1,30 @@
+/* eslint-disable no-param-reassign */
 const validationResult = require('express-validator');
-const Modal = require('../models');
+const models = require('../models');
+const constants = require('../utils/errors');
+const defaultResponse = require('../utils/defaultResponse');
+const responseStatus = require('../utils/responseStatus');
+
+const { Modal } = models;
 const validate = require('../routes/modal.routes');
 
-const SuccessStatusCode = '200';
-const SuccessUPDATEMESSAGE = 'Record Updated Successfully';
-const SuccessDELETEMESSAGE = 'Record Deleted Successfully';
-const ERRORStatusCode = '500';
-const ERRORMESSAGE = 'something went wrong';
-const INVALIDSTATUSCODE = '422';
-const NOTFOUNDSTATUSCODE = '404';
-const NOTFOUNDMESSAGE = 'Not found';
-
-const Modals = async (_req, res) => {
+const getmodals = async (_req, res) => {
   try {
-    const modals = await Modal.findAll({
-      order: [['id', 'DESC']],
-    });
-    res.status(SuccessStatusCode).json({ data: modals });
+    const modals = await Modal.find()
+      .sort([['name', 'descending']])
+      .allowDiskUse();
+    res.status(responseStatus.SUCCESS).json({ data: modals });
   } catch (err) {
-    res.status(ERRORStatusCode).json({ error: err.message });
+    res.status(responseStatus.ERROR).json({ error: err.message });
   }
 };
 
 const saveModal = async (req, res) => {
   try {
-    validate.all('Modal');
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      res.status(INVALIDSTATUSCODE).json({ errors: errors.array() });
-      return;
-    }
     const newModal = await Modal.create({
       name: String(req.body.name),
       description: String(req.body.description),
+      year: req.body.year,
     });
     res.json({ data: newModal });
   } catch (err) {
@@ -40,26 +32,37 @@ const saveModal = async (req, res) => {
   }
 };
 const getModal = async (req, res) => {
-  const modal = await Modal.findOne({ where: { id: req.params.id } });
-  res.status(SuccessStatusCode).json({ data: modal });
+  const { id } = req.params;
+  const modal = await Modal.findById(id, (err, docs) => {
+    if (err) {
+      res.status(responseStatus.ERROR).json({ data: err });
+    } else {
+      console.log('Result : ', docs);
+    }
+  });
+  res.status(responseStatus.SUCCESS).json({ data: modal });
 };
 
 const update = async (req, res) => {
   try {
-    const modal = await Modal.findOne({ where: { id: req.params.id } });
-    if (!modal) {
-      res.status(NOTFOUNDSTATUSCODE).json({ data: NOTFOUNDMESSAGE });
-    }
-    await Modal.update(
-      {
-        status: req.body.status,
-      },
-      // eslint-disable-next-line comma-dangle
-      { where: { id: req.params.id } }
-    );
-    res.status(SuccessStatusCode).json({ data: SuccessUPDATEMESSAGE });
+    const { userId } = req.params.id;
+
+    Modal.findOne({ _id: req.params.id }, (err, doc) => {
+      if (!err) {
+        console.log(doc);
+        if (!doc) {
+          console.log('ok');
+        }
+        // eslint-disable-next-line no-param-reassign
+        doc.name = req.body.name;
+        doc.description = req.body.description;
+        doc.year = req.body.year;
+        doc.update();
+        res.json({ data: responseStatus.SUCCESS });
+      }
+    });
   } catch (err) {
-    res.json({ data: ERRORMESSAGE });
+    res.json({ data: responseStatus.ERROR });
   }
 };
 
@@ -67,17 +70,24 @@ const deleteModal = async (req, res) => {
   try {
     const modal = await Modal.findOne({ where: { id: req.params.id } });
     if (!modal) {
-      res.status(NOTFOUNDSTATUSCODE).json({ data: NOTFOUNDMESSAGE });
+      res.status(responseStatus.NOTFOUNDSTATUSCODE).json({ data: responseStatus.NOTFOUNDMESSAGE });
     }
     await Modal.destroy({
       where: {
         id: req.params.id,
       },
     });
-    res.status(SuccessStatusCode).json({ data: SuccessDELETEMESSAGE });
+    res.status(200).json({ data: responseStatus.SuccessDELETEMESSAGE });
   } catch (err) {
-    res.json({ data: ERRORMESSAGE });
+    res.json({ data: responseStatus.ERRORMESSAGE });
   }
 };
 
-module.exports = [Modals, saveModal, getModal, update, deleteModal];
+const modalMethods = {
+  getmodals,
+  saveModal,
+  getModal,
+  update,
+  deleteModal,
+};
+module.exports = modalMethods;

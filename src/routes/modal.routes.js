@@ -1,18 +1,8 @@
 const Router = require('express');
-const { body } = require('express-validator');
-const modals = require('../controllers/modal.controller');
-const getModal = require('../controllers/modal.controller');
-const saveModal = require('../controllers/modal.controller');
-const update = require('../controllers/modal.controller');
-const deleteModal = require('../controllers/modal.controller');
+const modalMethods = require('../controllers/modal.controller');
 
 const router = Router();
 
-const validate = (method) => {
-  if (method !== 'Modal') return [body('parameters').isEmpty()];
-
-  return [body('name').notEmpty(), body('description').notEmpty()];
-};
 /**
  * @api {get} api/modal/list show all modals
  * @apiName list
@@ -38,7 +28,7 @@ const validate = (method) => {
  *@apiError {String} Authorization authorization is missing or invalid
  */
 
-router.get('/list', modals);
+router.get('/list', modalMethods.getmodals);
 /**
  * @api {get} api/modal/:id show modal by Id
  * @apiName getModal
@@ -77,7 +67,7 @@ router.get('/list', modals);
  *@apiError {Number} id params id is invalid
  */
 
-router.get('/:id', getModal);
+router.get('/:id', modalMethods.getModal);
 /**
  * @api {post} api/modal/create create modal
  * @apiName createEvent
@@ -120,7 +110,7 @@ router.get('/:id', getModal);
  *}
  *@apiError {String} Authorization authorization is missing or invalid
  */
-router.post('/create', validate('Modal'), saveModal);
+router.post('/create', modalMethods.saveModal);
 /**
  * @api {put} api/modal/update/:id update MOdal
  * @apiName update
@@ -165,7 +155,7 @@ router.post('/create', validate('Modal'), saveModal);
  *}
  *@apiError {Number} id params id is invalid
  */
-router.put('/update/:id', validate('Modal'), update);
+router.put('/update/:id', modalMethods.update);
 /**
  * @api {delete} /modal/delete/:id delete modal by id
  * @apiName delete
@@ -197,6 +187,6 @@ router.put('/update/:id', validate('Modal'), update);
  *@apiError {Number} id params id is invalid
  */
 
-router.delete('/delete/:id', deleteModal);
+router.delete('/delete/:id', modalMethods.deleteModal);
 
 module.exports = router;

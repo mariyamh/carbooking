@@ -12,6 +12,11 @@ const modalSchema = new Schema({
   },
   description: {
     type: String,
+    required: true,
+  },
+  year: {
+    type: String,
+    required: true,
   },
 });
 const Modal = mongoose.model('Modal', modalSchema);

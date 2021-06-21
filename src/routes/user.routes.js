@@ -1,14 +1,10 @@
 const Router = require('express');
-const { body } = require('express-validator');
 const authToken = require('../utils/apiToken');
-const login = require('../controllers/user.controller');
-const register = require('../controllers/user.controller');
-const allUsers = require('../controllers/user.controller');
+const userFunctions = require('../controllers/user.controller');
 
 const router = Router();
 
-router.post('/register', [body('email').isEmail(), body('password').isLength({ min: 6 })], register);
-
+router.post('/register', userFunctions.register);
 /**
  * @api {post} /login Login User
  * @apiName LoginUser
@@ -52,7 +48,7 @@ router.post('/register', [body('email').isEmail(), body('password').isLength({ m
  *      "token": "NDkzfQ.M_CjDmTYnVqhNd9c5bt7plrAZ_Iv4s0k5wkQJRbLlT4"
  *  }
  */
-router.post('/login', [body('email').isEmail(), body('password').isLength({ min: 6 })], login);
+router.post('/login', userFunctions.login);
 /**
  * @api {get} /users All Users
  * @apiName AllUser
@@ -100,8 +96,6 @@ router.post('/login', [body('email').isEmail(), body('password').isLength({ min:
  *    ]
  * }
  */
-router.get('/users', allUsers);
-router.get('/users', authToken, allUsers);
-router.get('/users', authToken, allUsers);
+router.get('/users', authToken, userFunctions.allUsers);
 
 module.exports = router;
